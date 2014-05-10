@@ -17,7 +17,7 @@ northernmost = 49.
 southernmost = 25.
 easternmost = -66.
 westernmost = -124.
-geolocator = GoogleV3
+geolocator = GoogleV3()
 
 fullstring = '{0}, {1}, "{2}", \n'
 
