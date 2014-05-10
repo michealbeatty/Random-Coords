@@ -11,7 +11,7 @@ Geographic Center - (39.833333. -98.583333)
 import random
 import os
 from geopy.geocoders import GoogleV3
-import geocoder
+#import geocoder
 
 northernmost = 49.
 southernmost = 25.
@@ -22,38 +22,42 @@ geolocator = GoogleV3()
 fullstring = '{0}, {1}, "{2}", \n'
 
 
-def coordinate_generator(number_of_points):
+def coordinate_generator(number_of_points, output_file):
+    """Takes an int number_of_points and generates an equivalent number of random coordinate points, geocodes them
+     then writes them to the given output_file."""
     counter = 0
     while counter < number_of_points:
-        latlng = round(random.uniform(southernmost, northernmost), 6), round(random.uniform(easternmost, westernmost), 6)
+        #This generates a random coordinate based on the most extreme points in the contiguous United States
+        latlng = round(random.uniform(southernmost, northernmost), 6), round(random.uniform(easternmost, westernmost),
+                                                                             6)
         try:
+            #This reverse geocodes the random coordinate
             address, (lat, lng) = geolocator.reverse(latlng, exactly_one=True)
-            if 'USA' not in address:
+            # TODO: Allow ability to include Canada
+            if 'USA' not in address:  # We only want USA addresses
                 continue
             else:
                 counter += 1
-                print(lng, lat, address)
-
-        except TypeError:
+                output_file.write(fullstring.format(lng, lat, address))
+        except TypeError: # This checks for geocoding that returns NoneType
             continue
 
-coordinate_generator(10)
 
-# fname = raw_input("Filename: ")
-# if os.path.isfile(fname):
-#     proceed_prompt = raw_input("File exists, proceed(y or n)? ")
-#     if proceed_prompt.lower() == 'y':
-#         fout = open(fname, 'a')
-#         number_of_points = int(raw_input("Number of points to generate: "))
-#         coordinate_generator(number_of_points, fout)
-#         fout.close()
-#     else:
-#         print 'Aborting . . .'
-#         exit()
-# else:
-#     fout = open(fname, 'a')
-#     number_of_points = int(raw_input("Number of points to generate: "))
-#     coordinate_generator(number_of_points, fout)
-#     fout.close()
+fname = input("Filename: ")
+if os.path.isfile(fname):
+    proceed_prompt = input("File exists, proceed(y or n)? ")
+    if proceed_prompt.lower() == 'y':
+        fout = open(fname, 'a')
+        number_of_points = int(input("Number of points to generate: "))
+        coordinate_generator(number_of_points, fout)
+        fout.close()
+    else:
+        print('Aborting . . .')
+        exit()
+else:
+    fout = open(fname, 'a')
+    number_of_points = int(input("Number of points to generate: "))
+    coordinate_generator(number_of_points, fout)
+    fout.close()
 
 #TODO Check for existence of random_addresses.csv and warn before appending.
