@@ -1,15 +1,27 @@
-Small program used to generate random coordinate points in the contiguous United States.
+Small program used to generate random coordinate points in the 
+contiguous United States and then write them to a CSV file.
 Program also reverse geocodes the latitude, longitude to retrieve an address if one is available
 
 This program uses Python 2.7
 
 Dependencies
 ------------
-geocoder
+[geocoder](https://github.com/DenisCarriere/geocoder)
 
+
+Usage
+-----
+
+`python randomCoordinates.py *number_of_points* *output_file*`
+
+It is recommended that you limit the number of points to no more than ten at 
+any one time otherwise you may run up against the limits set by Google.
+
+Because this program appends results to the specified file, the user will be 
+prompted to proceed if the specified output file already exists.
 
 TODO
 ====
 
 * Add the option to generate Canadian points.
-* Add command line arguments
+
