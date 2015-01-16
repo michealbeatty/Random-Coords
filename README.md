@@ -13,7 +13,7 @@ Usage
 -----
 
 ### Running the program
-`$ python randomCoordinates.py number_of_points output_file`
+`$ python randomCoords.py number_of_points output_file`
 
 It is recommended that you limit the number of points to no more than ten at 
 any one time otherwise you may run up against the limits set by Google.

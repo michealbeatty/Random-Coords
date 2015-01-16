@@ -1,6 +1,20 @@
 #! /usr/bin/env python
 
-"""US Geographic Information
+"""
+Program to generate random coordinates in the contiguous UNited States.
+
+
+This program will generate a user-specified number of random geographic
+coordinates in the contiguous United States, reverse geocode them, then
+write them to the specified file.
+
+Example:
+    $ python randomCoords.py number_of_points output_file
+
+The following conventions were used to ensure the coordinates were in the
+contiguous U.S.
+
+US Geographic Information
 
 Northernmost - (49.384472, -95.153389)
 Southernmost - (24.433333, -81.918333)
@@ -15,18 +29,21 @@ import random
 import geocoder
 
 
-#TODO create function to handle processing of generated coordinates
-
 def coordinate_generator(number_of_points):
+    """
+    Generate and geocode a number of random geographical points.
+
+    :param number_of_points: number of points to generate
+    :type number_of_points: int
+    :return: list of geographic point tuples
+
+    """
     NORTHERNMOST = 49.
     SOUTHERNMOST = 25.
     EASTERNMOST = -66.
     WESTERNMOST = -124.
 
     coordinate_list = []
-
-    #TODO refactor for separation of concerns This function should only generate coords
-
     counter = 0
 
     while counter < number_of_points:
@@ -44,7 +61,13 @@ def coordinate_generator(number_of_points):
 
 
 def main(points, fname):
-    #TODO: main function should handle the actual writing to file
+    """
+    write list of coordinates to file
+
+    :param points: number of points to generate
+    :param fname: name of output file
+
+    """
     fullstring = '{0}, {1}, "{2}", \n'
     coordinates = []
     if os.path.isfile(fname):
@@ -67,8 +90,6 @@ def main(points, fname):
             fout.write(fullstring.format(loc[0], loc[1], loc[2]))
         fout.close()
 
-
-#TODO Add command line arguments for filename and number of locations
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
