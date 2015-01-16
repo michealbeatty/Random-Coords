@@ -26,6 +26,8 @@ The points are written to the CSV file in the following format
 
 `longitude, latitude, address`
 
+(see example.csv provided in the repository)
+
 TODO
 ====
 
