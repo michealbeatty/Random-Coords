@@ -12,13 +12,19 @@ Dependencies
 Usage
 -----
 
-`python randomCoordinates.py *number_of_points* *output_file*`
+### Running the program
+`$ python randomCoordinates.py number_of_points output_file`
 
 It is recommended that you limit the number of points to no more than ten at 
 any one time otherwise you may run up against the limits set by Google.
 
 Because this program appends results to the specified file, the user will be 
 prompted to proceed if the specified output file already exists.
+
+### Output format
+The points are written to the CSV file in the following format
+
+`longitude, latitude, address`
 
 TODO
 ====
