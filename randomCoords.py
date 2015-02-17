@@ -9,7 +9,7 @@ coordinates in the contiguous United States, reverse geocode them, then
 write them to the specified file.
 
 Example:
-    $ python randomCoords.py number_of_points output_file
+    $ python randomcoords.py number_of_points output_file
 
 The following conventions were used to ensure the coordinates were in the
 contiguous U.S.
@@ -22,42 +22,47 @@ Easternmost - (44.815278. -65.949722)
 Westernmost - (48.164167. -124.733056)
 Geographic Center - (39.833333. -98.583333)
 """
+
+
 import argparse
 import os
 import random
 
 import geocoder
 
+__version__ = '0.0.2'
+
+NORTHERNMOST = 49.
+SOUTHERNMOST = 25.
+EASTERNMOST = -66.
+WESTERNMOST = -124.
 
 def coordinate_generator(number_of_points):
     """
-    Generate and geocode a number of random geographical points.
+    Generate a number of random geographical points and then geocode them.
 
     :param number_of_points: number of points to generate
     :type number_of_points: int
     :return: list of geographic point tuples
 
     """
-    NORTHERNMOST = 49.
-    SOUTHERNMOST = 25.
-    EASTERNMOST = -66.
-    WESTERNMOST = -124.
+
 
     coordinate_list = []
     counter = 0
 
     while counter < number_of_points:
-        latlng = round(random.uniform(SOUTHERNMOST, NORTHERNMOST), 6), round(random.uniform(EASTERNMOST, WESTERNMOST), 6)
-        g = geocoder.reverse(latlng)
-        if g.country != 'US':
+        latlng = round(random.uniform(SOUTHERNMOST, NORTHERNMOST), 6), \
+                 round(random.uniform(EASTERNMOST, WESTERNMOST), 6)
+        gcode = geocoder.reverse(latlng)
+        if gcode.country != 'US':
             continue
         else:
             counter += 1
-            coordinate_list.append((g.x, g.y, g.address))
-            # output_file.write(fullstring.format(g.x, g.y, g.address))
+            coordinate_list.append((gcode.x, gcode.y, gcode.address))
+            # output_file.write(fullstring.format(gcode.x, gcode.y, gcode.address))
     print 'Finished generating %d coordinate points' % counter
     return coordinate_list
-
 
 
 def main(points, fname):
@@ -92,8 +97,10 @@ def main(points, fname):
 
 
 if __name__ == '__main__':
+    #pylint: disable=invalid-name
     parser = argparse.ArgumentParser()
     parser.add_argument("points", type=int, help="number of points to generate")
     parser.add_argument("fname", help="name of output file")
     args = parser.parse_args()
+
     main(args.points, args.fname)
