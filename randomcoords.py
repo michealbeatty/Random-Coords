@@ -76,7 +76,7 @@ def main(points, fname):
     :param fname: name of output file
 
     """
-    fullstring = '{0}, {1}, "{2}", \n'
+    fullstring = '{0}, {1}, "{2}"\n'
     coordinates = []
     if os.path.isfile(fname):
         proceed_message = "File {} exists, proceed(y or n)? "
