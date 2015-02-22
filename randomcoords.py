@@ -87,7 +87,6 @@ def main(points, fname):
             coordinates = coordinate_generator(number_of_points)
             # fout.close()
             for loc in coordinates:
-                print(loc)
                 fout.write(fullstring.format(loc[0][1], loc[0][0], loc[1]))
         else:
             print 'Aborting . . .'
