@@ -50,13 +50,20 @@ def coordinate_generator(number_of_points):
 
     coordinate_list = []
     counter = 0
+    geocoder = Geocoder()
 
     while counter < number_of_points:
         lat = round(random.uniform(SOUTHERNMOST, NORTHERNMOST), 6)
         lng = round(random.uniform(EASTERNMOST, WESTERNMOST), 6)
         try:
-            gcode = Geocoder.reverse_geocode(lat, lng)
-            if "Canada" in gcode[0].data[0]['formatted_address']:
+            gcode = geocoder.reverse_geocode(lat, lng)
+            # if "Canada" in gcode[0].data[0]['formatted_address']:
+            #     continue
+            # elif gcode[0].data[0]['formatted_address'][-6:] == "Mexico":
+            #     continue
+            if gcode[0].data[0]['formatted_address'][-6:] in ('Canada', 'Mexico'):
+                continue
+            elif 'unnamed road' in gcode[0].data[0]['formatted_address']:
                 continue
             else:
                 counter += 1
