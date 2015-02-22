@@ -28,7 +28,7 @@ import argparse
 import os
 import random
 
-import geocoder
+from pygeocoder import Geocoder, GeocoderError
 
 __version__ = '0.0.3'
 
@@ -52,15 +52,18 @@ def coordinate_generator(number_of_points):
     counter = 0
 
     while counter < number_of_points:
-        latlng = round(random.uniform(SOUTHERNMOST, NORTHERNMOST), 6), \
-                 round(random.uniform(EASTERNMOST, WESTERNMOST), 6)
-        gcode = geocoder.reverse(latlng)
-        if gcode.country != 'US':
-            continue
-        else:
-            counter += 1
-            coordinate_list.append((gcode.x, gcode.y, gcode.address))
+        lat = round(random.uniform(SOUTHERNMOST, NORTHERNMOST), 6)
+        lng = round(random.uniform(EASTERNMOST, WESTERNMOST), 6)
+        try:
+            gcode = Geocoder.reverse_geocode(lat, lng)
+            if "Canada" in gcode[0].data[0]['formatted_address']:
+                continue
+            else:
+                counter += 1
+            coordinate_list.append((gcode[0].coordinates, gcode[0].formatted_address))
             # output_file.write(fullstring.format(gcode.x, gcode.y, gcode.address))
+        except GeocoderError:
+            continue
     print 'Finished generating %d coordinate points' % counter
     return coordinate_list
 
@@ -76,14 +79,16 @@ def main(points, fname):
     fullstring = '{0}, {1}, "{2}", \n'
     coordinates = []
     if os.path.isfile(fname):
-        proceed_prompt = raw_input("File exists, proceed(y or n)? ")
+        proceed_message = "File {} exists, proceed(y or n)? "
+        proceed_prompt = raw_input(proceed_message.format(fname))
         if proceed_prompt.lower() == 'y':
             fout = open(fname, 'a')
             number_of_points = points
             coordinates = coordinate_generator(number_of_points)
             # fout.close()
             for loc in coordinates:
-                fout.write(fullstring.format(loc[0], loc[1], loc[2]))
+                print(loc)
+                fout.write(fullstring.format(loc[0][1], loc[0][0], loc[1]))
         else:
             print 'Aborting . . .'
             exit()
@@ -92,7 +97,7 @@ def main(points, fname):
         number_of_points = points
         coordinates = coordinate_generator(number_of_points)
         for loc in coordinates:
-            fout.write(fullstring.format(loc[0], loc[1], loc[2]))
+            fout.write(fullstring.format(loc[0][1], loc[0][0], loc[1]))
         fout.close()
 
 
