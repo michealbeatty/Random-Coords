@@ -6,14 +6,14 @@ This program uses Python 2.7
 
 Dependencies
 ------------
-[geocoder](https://github.com/DenisCarriere/geocoder)
+[pygeocoder](http://code.xster.net/pygeocoder/wiki/Home)
 
 
 Usage
 -----
 
 ### Running the program
-`$ python randomCoords.py number_of_points output_file`
+`$ python randomcoords.py number_of_points output_file`
 
 It is recommended that you limit the number of points to no more than ten at 
 any one time otherwise you may run up against the limits set by Google.
