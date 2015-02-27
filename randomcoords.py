@@ -30,7 +30,7 @@ import random
 
 from pygeocoder import Geocoder, GeocoderError
 
-__version__ = '0.0.3'
+__version__ = '0.1.0'
 
 NORTHERNMOST = 49.
 SOUTHERNMOST = 25.
@@ -61,6 +61,8 @@ def coordinate_generator(number_of_points):
             if gcode[0].data[0]['formatted_address'][-6:] in ('Canada', 'Mexico'):
                 continue
             elif 'unnamed road' in gcode[0].data[0]['formatted_address']:
+                continue
+            elif 'Unnamed Road' in gcode[0].data[0]['formatted_address']:
                 continue
             else:
                 counter += 1
