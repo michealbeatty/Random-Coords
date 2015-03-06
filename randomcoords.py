@@ -109,8 +109,13 @@ def main(points, fname):
 if __name__ == '__main__':
     #pylint: disable=invalid-name
     parser = argparse.ArgumentParser()
-    parser.add_argument("points", type=int, help="number of points to generate")
-    parser.add_argument("fname", help="name of output file")
+    parser.add_argument("-p", "--points", type=int,
+                        help="number of coordinate points to generate"
+                        )
+    parser.add_argument("fname",
+                        help="name of output file",
+                        nargs='?',
+                        default="output.csv")
     args = parser.parse_args()
 
     main(args.points, args.fname)
