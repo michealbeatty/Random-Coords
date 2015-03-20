@@ -47,7 +47,6 @@ def coordinate_generator(number_of_points):
 
     """
 
-
     coordinate_list = []
     counter = 0
     geocoder = Geocoder()
@@ -112,10 +111,11 @@ if __name__ == '__main__':
     parser.add_argument("-p", "--points", type=int,
                         help="number of coordinate points to generate"
                         )
-    parser.add_argument("fname",
+    parser.add_argument("-o", "--output_file",
                         help="name of output file",
-                        nargs='?',
                         default="output.csv")
     args = parser.parse_args()
+    points = args.points
+    fname = args.output_file
 
-    main(args.points, args.fname)
+    main(points, fname)
